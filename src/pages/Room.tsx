@@ -168,7 +168,7 @@ const Room = () => {
 
             {/* Subtitle Upload */}
             <div className="glass-card rounded-xl p-6">
-              <h3 className="font-semibold mb-4">Add Subtitles</h3>
+              <h3 className="font-semibold mb-4">Add Subtitles (optional)</h3>
               <FileUploader
                 type="subtitle"
                 onUploadComplete={handleSubtitleUpload}
