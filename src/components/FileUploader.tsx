@@ -21,7 +21,8 @@ const FileUploader = ({ type, onUploadComplete, currentFile, onClear }: FileUplo
       accept: '.mp4,.webm,.mov,.mkv',
       icon: Film,
       label: 'Video File',
-      hint: 'MP4, WebM, MOV up to 500MB',
+      hint: 'MP4, WebM, MOV up to 10GB',
+      maxBytes: 10 * 1024 * 1024 * 1024,
       bucket: 'videos',
     },
     art: {
@@ -34,8 +35,8 @@ const FileUploader = ({ type, onUploadComplete, currentFile, onClear }: FileUplo
     subtitle: {
       accept: '.vtt,.srt',
       icon: FileText,
-      label: 'Subtitles',
-      hint: 'VTT or SRT files',
+      label: 'Subtitles (optional)',
+      hint: 'VTT or SRT files (optional)',
       bucket: 'subtitles',
     },
   }[type];
@@ -50,6 +51,12 @@ const FileUploader = ({ type, onUploadComplete, currentFile, onClear }: FileUplo
   }, []);
 
   const handleUpload = async (file: File) => {
+    if (config.maxBytes && file.size > config.maxBytes) {
+      console.error('Upload failed: file exceeds size limit.');
+      setFileName(null);
+      return;
+    }
+
     setIsUploading(true);
     setProgress(0);
     setFileName(file.name);
